@@ -1,0 +1,88 @@
+<?php
+/* File revision date: 21-Jan-2016 */
+// code errors management class
+/*
+Type:
+	Stop - stop & reload
+	ask (Y/N) - continue / reload
+	warning - does not interfere with page loading only stores errors to display on page
+	forbidden - stop halt no resume or reload
+	select - is question true or not - both continue 
+	poll - select one option to continue
+	
+*/
+class live_errors_class{
+
+	var $error;
+	var $type; 
+	var $msg_short;
+	var $msg_long;
+	var $globvars;
+	var $buffer = array();
+	var $poll;
+	var $header;
+	
+	function load_layout($what){
+		include(substr(__FILE__,0,strpos(__FILE__,"core")).'core/globvars.php');
+		$globvars['error']['flag']=true;
+		$globvars['error']['code']=$this->check_err($what,false);
+		include($this->globvars['local_root'].'core/layout/'.$this->globvars['layout']['error']);
+		
+	}
+
+	function check_err($what,$display_code){
+		if ($what===true): // err found
+			if ($this->type=='warning'):
+				$this->buffer[]=$this->msg_short;
+			else:
+				add_error($this->msg_short,__LINE__,__FILE__);
+				if ($this->type=='ask'):
+					$yes=$_SERVER['REQUEST_URI'];
+					$no='javascript:history.go(0)'; //back to initial and clean all env vars
+					$this->img=$this->globvars['site_path'].'/core/error/images/pergunta.jpg';
+					$this->qest='Do you want to continue or Reload? [ <a href="'.$yes.'">Yes</a> ] / [ <a href="'.$no.'">No</a> ]';
+				elseif ($this->type=='select'):
+					$this->img=$this->globvars['site_path'].'/core/error/images/pergunta.jpg';
+					$this->qest='Which one is it ? [ <a href="'.$this->header[0].'">'.$this->poll[0].'</a> ] / [ <a href="'.$this->header[1].'">'.$this->poll[1].'</a> ]';				
+				elseif ($this->type=='poll'):
+					$this->img=$this->globvars['site_path'].'/core/error/images/pergunta.jpg';
+					$this->qest='<form method="post" action="'.$_SERVER['REQUEST_URI'].'">Select one option to continue:';
+					for($i=0;$i<=count($this->poll);$i++):
+						$this->qest='  <input type="radio" name="error_poll" value="'.$this->header[$i].'">'.$this->poll[$i].'<br>';
+					endfor;
+					$this->qest='</form>';
+				// missing form code here
+				elseif ($this->type=='stop'):		
+					$yes='javascript:history.go(0)';		
+					$this->img=$this->globvars['site_path'].'/core/error/images/prohibited.jpg';
+					$this->qest='You are not allowed to continue. </br> Check the error and then to reload click [ <a href="'.$yes.'">here</a> ]';
+				elseif ($this->type=='forbidden'):
+					$this->img=$this->globvars['site_path'].'/core/error/images/prohibited.jpg';
+					$this->qest='You are not allowed to continue. Check the error and try again. Thank You.'; // add link for error log listing
+				else:
+					$this->img=$this->globvars['site_path'].'/core/error/images/atencao.gif';
+					$this->qest='Do you want to coninue? [ Yes ] / [ No ]';
+				endif;
+		
+				$html_code='<table width="400px" border="0" align="center">
+				  <tr>
+				     <td width="100px" valign="top"><img src="'.$this->img.'" width="100px"></td>
+				     <td width="300px" align="center" valign="middle"><p>'.$this->qest.'</p></td>
+				  </tr>
+				  <tr>
+				     <td colspan="2"  valign="top"><p><strong>'.$this->msg_short.'</strong></p></td>
+				  </tr>
+				  <tr>
+				     <td colspan="2" valign="top"><p>'.$this->msg_long.'</p></td>
+				  </tr>
+				</table>';
+				if ($display_code===false):
+					return $html_code;
+				else:
+					echo($html_code);
+				endif;
+			endif; //warning
+		endif; // what
+	} // close function
+}; // close class
+?>

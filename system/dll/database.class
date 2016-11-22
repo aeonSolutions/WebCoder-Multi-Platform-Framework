@@ -1,0 +1,101 @@
+<?php
+/* File revision date: 22-Jan-2016 */
+// Database class for SQL queries
+
+// missing clean SQL strings to prevent SQL injections
+ 
+class database_class{
+
+	var $host;     // host
+	var $user;     // utilizador de acesso
+	var $password; // password de acesso a base de dados
+	var $name;     // nome da base de dados
+	var $type;
+	var $globvars;
+	var $link;
+	var $debug;
+	var $err;
+
+	function connect($work){
+		if($work===true):
+			if ($this->link): // already connected nothing to do
+				$this->debug->err_code='DBo';
+				$this->debug->breakpoint(__LINE__);
+			else:
+				$this->link=new mysqli($this->host, $this->user, $this->password, $this->name)
+				or 
+				  die('<font style="font-family:Georgia, Times, serif; font-size:10px; color:#FF0000">Unable to Connect DB server!! (DBClass '.__LINE__.') - [<strong>'.$_SERVER['SCRIPT_NAME'].'</strong>]</font>');
+				if(!mysqli_select_db($this->link,$this->name)):
+					echo('<font style="font-family:Georgia, Times, serif; font-size:10px; color:#FF0000">Unable to Connect DB!! (DBClass '.__LINE__.') - [<strong>'.$_SERVER['SCRIPT_NAME'].'</strong>]</font>)');
+				endif;
+			endif;
+			
+		elseif($work===false):
+			// Check if server is alive
+			if (mysqli_ping($con)):
+				if (!mysqli_close($this->link)):
+					echo '<font style="font-family:Georgia, Times, serif; font-size:10px; color:#FF0000">Error Clossing Conenction to DB!!! ('.__LINE__.')</font><br>';
+				endif;
+			else:
+				$this->debug->err_code='DBc';
+				$this->debug->breakpoint(__LINE__);
+			endif;
+		else:
+			echo '<font style="font-family:Georgia, Times, serif; font-size:10px; color:#FF0000">Wrong connection type parsed to work!!! ('.__LINE__.')</font><br>';		
+		endif;
+	}
+
+	function GetQuery($sql){
+			$debug=$this->debug;
+			$result=mysqli_query($this->link, $sql);
+			if($result):
+				$debug->breakpoint(__LINE__.'DB');
+			else:
+				if (mysqli_errno()==1146):
+					$this->err=1146;
+					return false;
+				else:
+			    	die('Error query SQL string to DB : ('.mysqli_errno().') ');
+				endif;
+			endif;
+			if(count($results->num_rows)==0):
+				$debug->breakpoint(__LINE__.'DB');
+				//return false;
+			 else:
+				$tmp[0][0]='';
+				while($row = mysqli_fetch_assoc($result)):		
+					$tmp[]=$row;
+				endwhile;
+				if (mysqli_error()):
+					echo "Erro MySQL em GetQuery: ".mysqli_error()."<br>";
+				endif;
+				if (mysqli_free_result($result)):
+					echo '<font style="font-family:Georgia, Times, serif; font-size:10px; color:#FF0000">Error retrieving query from DB!!! ('.__LINE__.')<br>';
+					echo $sql.'</font><br>';
+				endif;
+				return $tmp;
+			endif;
+	}
+
+	function SetQuery($sql){
+			$link=$this->link;
+			$debug=$this->debug;
+			$insert_row=$link->query($sql);
+			if($insert_row):
+				$debug->breakpoint(__LINE__);
+			else:
+			    die('Error add SQL string to DB : ('. $link->errno .') '. $link->error);
+			endif;
+	}
+	
+	function prepare_query($string){
+			$link=$this->connect();
+			if(get_magic_quotes_gpc()):
+                $string = stripslashes($string); 
+             endif;
+          	$string=mysql_real_escape_string($string); 
+			return $string;
+	}
+	
+};
+?>

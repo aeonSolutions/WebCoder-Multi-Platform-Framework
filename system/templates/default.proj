@@ -1,0 +1,169 @@
+<?php
+		//last update to project settings
+		  $properties['entrytime']="'".@date('d;m;Y;H;i;s')."'";
+	
+		// main folders
+		  $properties['directory']['name']='';
+		  $properties['directory']['path']='';
+		  $properties['domain']['address']='';
+		
+		//identity
+		  $properties['identity']['identifier']='';
+		  $properties['identity']['version']='';
+		  $properties['identity']['build']='';
+		
+		//deployment
+		  $properties['deployment']['Html']='';
+		  $properties['deployment']['Css']='';
+		  $properties['deployment']['Java']='';
+		  $properties['deployment']['Interface']='';
+		
+		  $properties['deployment']['Orientation']['Portrait']=''; 
+		  $properties['deployment']['Orientation']['UpSideDown']='';
+		  $properties['deployment']['Orientation']['LandScapeLeft']='';
+		  $properties['deployment']['Orientation']['LandScapeRight']='';
+		
+		  $properties['deployment']['StatusBar']='';
+		  $properties['deployment']['FullScreen']='';
+		
+		  $properties['deployment']['Platform']['Local']='';
+		  $properties['deployment']['Platform']['Web']='';
+		  $properties['deployment']['Platform']['Smartphone']='';
+		  $properties['deployment']['Platform']['Tablet']='';
+		
+		  $properties['deployment']['Backup']['Enabled']='';
+		  $properties['deployment']['Backup']['Interval']='';
+		
+		
+		// WebApp Icons and Images external folders".chr(13);
+			$properties['folders']['IcoImg'][0]='';
+		
+		// Embedded binaries
+		$properties['folders']['EmbbededBin'][0]='';
+		
+		// linked libraries
+		$properties['folders']['LinkedLib'][0]='';
+
+		// linked widgets
++		$properties['folders']['LinkedWidget'][0]='';
+	
+		// linked web applications
+		$properties['folders']['LinkedWApp'][0]='';
+		
+		
+		// Capabilities
+		  $properties['capabilities']['OSCN']=''; //open source cloud network
+		  $properties['capabilities']['PushNotifications']=''; //push notifications
+		  $properties['capabilities']['Wallet']=''; //Digital wallet
+		  $properties['capabilities']['Shopping']=''; //shopping store
+		  $properties['capabilities']['FamilyHome']=''; //Family and home
+		  $properties['capabilities']['Health']=''; //health
+		  $properties['capabilities']['DataProtection']=''; //Data Protection
+		  $properties['capabilities']['StaySafe']=''; //Stay safe police enforcement
+		  $properties['capabilities']['DNSHuman']=''; //Domain names human verification 
+		  $properties['capabilities']['Financial']=''; //Persnoal or business finalcial and money management
+		  $properties['capabilities']['Games']=''; //Games center
+		
+		// resources
+		  $properties['resources']['null']=''; // ToDo
+		
+		// safety
+		  $properties['safety']['AuthTypesAllowed']['web']=''; //common web username and password auth
+		  $properties['safety']['AuthTypesAllowed']['sms']=''; //sent mobile sms code for auth
+		  $properties['safety']['AuthTypesAllowed']['CodeGen']=''; //input code give by smartphone app code generator
+		  $properties['safety']['AuthTypesAllowed']['LiveMD5']=''; //live MD5 code end2end comparison
+
+		  $properties['safety']['Keys']['Internal']=''; //internal project PGP key 		
+		  $properties['safety']['Keys']['Public']=''; //Public project PGP key
+
+		  $properties['safety']['Sharing']['Enabled']=''; //enable or disable safety sharing  ".chr(13);
+		
+		  $properties['safety']['AssocDomains']='';  // Trusted associated domain names".chr(13);
+		
+		  // Build rules
+		  $properties['Compiler']['engine']=''; //compiler engine
+
+		  $properties['Compiler']['options']['sass']['compress']=''; //compiler options
+		  $properties['Compiler']['options']['sass']['merge']=''; //compiler options
+		  $properties['Compiler']['options']['css']['compress']=''; //compiler options
+		  $properties['Compiler']['options']['css']['merge']=''; //compiler options
+		  $properties['Compiler']['options']['javascript']['compress']=''; //compiler options
+		  $properties['Compiler']['options']['javascript']['merge']=''; //compiler options
+
+		  $properties['Compiler']['BuildPhases']['beta']=''; //compiler build phases: 
+		  $properties['Compiler']['BuildPhases']['alfa']=''; //compiler build phases: 
+		  $properties['Compiler']['BuildPhases']['rc']=''; //compiler build phases: 
+		  $properties['Compiler']['BuildPhases']['final']=''; //compiler build phases: 
+		
+		// Development settings
+		  $properties['development']['folders']['local']=''; //override default root folder for local
+		  $properties['development']['folders']['web']=''; //override default root folder for web
+		  $properties['development']['folders']['mobile']=''; //override default root folder for mobile
+		  $properties['development']['folders']['tablet']=''; //override default root folder for tablet
+		
+		  $properties['development']['versioning']=''; //enable or disable versioning
+		  $properties['development']['Distribution']=''; //type of licence for distribution
+		  $properties['development']['CustomText']=''; //custom text
+		
+		  $properties['development']['repository']['Github']=''; // enable or disable Github
+		  $properties['development']['repository']['SVN']=''; //enable or disable SVN
+		
+		// database server locations
+		  $properties['server']['database']['local']['addr']=''; // database server
+		  $properties['server']['database']['local']['user']=''; // database server
+		  $properties['server']['database']['local']['pwd']=''; // database server
+
+		  $properties['server']['database']['web']['addr']=''; // database server
+		  $properties['server']['database']['web']['user']=''; // database server
+		  $properties['server']['database']['web']['pwd']=''; // database server
+
+		  $properties['server']['database']['mobile']['addr']=''; // database server
+		  $properties['server']['database']['mobile']['user']=''; // database server
+		  $properties['server']['database']['mobile']['pwd']=''; // database server
+
+		  $properties['server']['database']['tablet']['addr']=''; // database server
+		  $properties['server']['database']['tablet']['user']=''; // database server
+		  $properties['server']['database']['tablet']['pwd']=''; // database server
+		
+		// hosting server locations
+		  $properties['server']['hosting']['local']['addr']=''; // hosting server address
+		  $properties['server']['hosting']['local']['ftp']=''; // hosting server enable or disable ftp
+		  $properties['server']['hosting']['local']['user']=''; // ftp hosting server username
+		  $properties['server']['hosting']['local']['pwd']=''; // ftp hosting server password
+		  $properties['server']['hosting']['local']['port']=''; // ftp hosting server port
+		  $properties['server']['hosting']['local']['remotePath']=''; // ftp hosting server remote path
+		
+		  $properties['server']['hosting']['web']['addr']=''; // hosting server address
+		  $properties['server']['hosting']['web']['ftp']=''; // hosting server enable or disable ftp
+		  $properties['server']['hosting']['web']['user']=''; // ftp hosting server username
+		  $properties['server']['hosting']['web']['pwd']=''; // ftp hosting server password
+		  $properties['server']['hosting']['web']['port']=''; // ftp hosting server port
+		  $properties['server']['hosting']['web']['remotePath']=''; // ftp hosting server remote path
+
+		  $properties['server']['hosting']['mobile']['addr']=''; // hosting server address
+		  $properties['server']['hosting']['mobile']['ftp']=''; // hosting server enable or disable ftp
+		  $properties['server']['hosting']['mobile']['user']=''; // ftp hosting server username
+		  $properties['server']['hosting']['mobile']['pwd']=''; // ftp hosting server password
+		  $properties['server']['hosting']['mobile']['port']=''; // ftp hosting server port
+		  $properties['server']['hosting']['mobile']['remotePath']=''; // ftp hosting server remote path
+		
+		  $properties['server']['hosting']['tablet']['addr']=''; // hosting server address
+		  $properties['server']['hosting']['tablet']['ftp']=''; // hosting server enable or disable ftp
+		  $properties['server']['hosting']['tablet']['user']=''; // ftp hosting server username
+		  $properties['server']['hosting']['tablet']['pwd']=''; // ftp hosting server password
+		  $properties['server']['hosting']['tablet']['port']=''; // ftp hosting server port
+		  $properties['server']['hosting']['tablet']['remotePath']=''; // ftp hosting server remote path
+		
+		// hosting database types
+		$properties['server']['database']['local']['type'][0]='';
+		$properties['server']['database']['local']['version'][0]='';
+
+		$properties['server']['database']['web']['type'][0]='';
+		$properties['server']['database']['web']['version'][0]='';
+
+		$properties['server']['database']['mobile']['type'][0]='';
+		$properties['server']['database']['mobile']['version'][0]='';
+
+		$properties['server']['database']['tablet']['type'][0]='';
+		$properties['server']['database']['tablet']['version'][0]='';
+?>

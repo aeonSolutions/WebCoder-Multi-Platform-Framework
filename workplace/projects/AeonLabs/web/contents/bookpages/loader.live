@@ -1,0 +1,170 @@
+<?php
+// full ready working loader 
+// config 
+$max_news_per_page=4;
+//
+include($root.'runtime/config/paths.cfg');
+//include(substr(__FILE__,0,strpos(__FILE__,"library")).'workplace/projects/'.$project['directory']['name'].'/resources/config/server.cfg');
+
+
+include('news.section');
+include('news.stat');
+
+
+if($workvars['testing']): // for when developing page or tweaking again
+	$section['local']['directory']= 'testcode';
+	$section['base']['directory']=$root.'library/bookpages/contents/';
+else:
+	$section['base']['directory']=$root.'contents/bookpages/';
+	$section['base']['directory']=$root.'contents/bookpages/contents/';
+endif;
+
+
+//available heights for news
+$format['height'][0]=60;
+$format['height'][1]=50;
+$format['height'][2]=40;
+
+//available widths for 5 news
+$format['width']['5']['h1'][0][0]=30;
+$format['width']['5']['h1'][0][1]=40;
+$format['width']['5']['h1'][0][2]=30;
+
+$format['width']['5']['h1'][1][0]=30;
+$format['width']['5']['h1'][1][1]=30;
+$format['width']['5']['h1'][1][2]=40;
+
+$format['width']['5']['h1'][2][0]=40;
+$format['width']['5']['h1'][2][1]=30;
+$format['width']['5']['h1'][2][2]=30;
+
+$format['width']['5']['h1'][3][0]=40;
+$format['width']['5']['h1'][3][1]=30;
+$format['width']['5']['h1'][3][2]=30;
+
+$format['width']['5']['h1'][4][0]=30;
+$format['width']['5']['h1'][4][1]=40;
+$format['width']['5']['h1'][4][2]=30;
+
+$format['width']['5']['h1'][5][0]=30;
+$format['width']['5']['h1'][5][1]=30;
+$format['width']['5']['h1'][5][2]=40;
+
+$format['width']['5']['h2'][0][0]=50;
+$format['width']['5']['h2'][0][1]=50;
+
+$format['width']['5']['h2'][1][0]=40;
+$format['width']['5']['h2'][1][1]=60;
+
+$format['width']['5']['h2'][2][0]=60;
+$format['width']['5']['h2'][2][1]=40;
+
+//available widths for 4 news
+$format['width']['4']['h'][0][0]=70;
+$format['width']['4']['h'][0][1]=30;
+
+$format['width']['4']['h'][1][0]=60;
+$format['width']['4']['h'][1][1]=40;
+
+$format['width']['4']['h'][2][0]=30;
+$format['width']['4']['h'][2][1]=70;
+
+$format['width']['4']['h'][3][0]=40;
+$format['width']['4']['h'][3][1]=60;
+
+$content=''.chr(13);
+$header=file_get_contents($section['base']['directory'].'../layout/header.html');
+$section['name']=glob($section['base']['directory']."*",GLOB_ONLYDIR);
+for ($i=0; $i<=count($section['name'])-1; $i++):
+	$section_name=explode('/', $section['name'][$i]);
+	$header_full=str_replace('{section_name}', $section_name[count($section_name)-1], $header);
+	$tmp=glob($section['name'][$i]."/*.html");
+	for($j=0;$j<=count($tmp)-1;$j++):
+		$section['contents'][$section['name'][$i]][$j]=file_get_contents($tmp[$j]);
+	endfor;
+
+	$total_news=count($section['contents'][$section['name'][$i]]);
+	$total_pages=$total_news / $max_news_per_page;
+	$page = array_fill(0, $total_pages, $max_news_per_page);
+
+	$diff=$total_pages-intval($total_pages);
+	$num_news_last_page= $diff*$max_news_per_page;
+	
+	if ($max_news_per_page<5 and $num_news_last_page>0 and $num_news_last_page<3):
+		if(round($num_news_last_page,0)==1):
+			$page[count($page)-1]= $page[count($page)-1]+1;
+		elseif(round($num_news_last_page,0)==2):		
+			$page[count($page)-1]= $page[count($page)-1]+1;
+			$page[count($page)-2]= $page[count($page)-2]+1;
+		endif;
+		$num_news_last_page=0;
+		$total_pages= count($page)==1 ? 1: count($page)-1;
+	endif;
+	for ($k = 0; $k < $total_pages; $k++):
+		$line=$format['height'][rand(0,2)];
+		$rnd= $page[$k]==5 ? rand(0,5) : rand(0,3);
+		$rnd2=$rnd;
+		$width['h1']= $page[$k]==5 ? $format['width']['5']['h1'][$rnd] : $format['width']['4']['h'][$rnd];
+		while($rnd2==$rnd):
+			$rnd2= $page[$k]==5 ? rand(0,2) : rand(0,3);
+		endwhile;
+		$width['h2']= $page[$k]==5 ? $format['width']['5']['h2'][$rnd2] : $format['width']['4']['h'][$rnd2];
+		//swap h1 h2
+		$rnd3=rand(0,1);
+		$lim1=1;
+		$lim2=2;
+		$lim3=4;
+		if ($rnd3==1):
+			$tmp=$width['h1'];
+			$width['h1']=array();
+			$width['h1']=$width['h2'];
+			$width['h2']=array();
+			$width['h2']=$tmp;
+			$lim1=3;
+			$lim2=1;
+			$lim3=1;
+		endif;
+		for ($j = 0; $j < $page[$k]; $j++):
+			$div= '<div id="'.$section_name[count($section_name)-1].$j.'" class="box ';
+			if($page[$k]==5):
+				$div.= ($j<=$lim2) ? 'w-'.$width['h1'][$j].' h-'.$line : 'w-'.$width['h2'][$j-($lim2+1)].' h-'.(100-$line);
+			endif;
+			 if($page[$k]==4):
+				$div.= ($j<=1) ? 'w-'.$width['h1'][$j].' h-'.$line : 'w-'.$width['h2'][$j-2].' h-'.(100-$line);
+			endif;
+			$div.= ($page[$k]==5 && $j==$lim1) ? ' box-b-l box-b-r' : '';
+			$div.= ($page[$k]==5 && $j==$lim3) ? ' box-b-l' : '';
+			$div.='">';
+			$ads='';
+			if($width['h1'][$j]==30 && ($j==0 || $j==2)):
+				$ads="<script>setInterval(getData('../../../../library/advertisements/loader.php', '".$section_name[count($section_name)-1].$j."', ''), 5000);</script>";
+			endif;
+			$content.=$div.chr(13).$ads.$section['contents'][$section['name'][$i]][$j] .chr(13).'</div>'.chr(13);
+		endfor;
+	endfor;
+endfor;
+$content.='';
+// engine for newsplacement layout
+
+$format['title']='title-top';
+
+
+//<div class="box w-25 h-70">
+//	<div class="img-cont img-1"></div>
+//</div>
+
+
+//max 3 images per page
+//detect if news has image or not
+
+
+/*
+$section['name'][$i] = title of section
+$section['contents'][$section['name'][$i]][$j] full news for given section
+*/
+
+
+
+//echo 'num pages:'.$total_pages.'- last page:'.$page[$total_pages].'- news counter:'.$num_news_last_page;
+echo '<div class="f-page">'.chr(13).$header_full.chr(13).$content.chr(13).'<div id="bubble">bubble</div></div>'.chr(13);
+?>

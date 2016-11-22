@@ -1,0 +1,78 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Test file</title>
+	<link href="ajax_fx.css" rel="stylesheet" type="text/css" />
+   	<link href="../../../system/GUI/styles/font-awesome.min.css" rel="stylesheet">
+	<link rel="StyleSheet" href="../../../system/GUI/styles/dtree.css" type="text/css" />
+
+</head>
+<html>
+	<script type="text/javascript" src="test_script.js"></script>
+	<script type="text/javascript" src="../../../system/BrowserDom/TreeList.lib.js"></script>
+	<body>
+	
+	<style>
+.pulse-button:focus {
+  border: 1px solid #9FCCFA;
+  box-shadow: 0 0 0 0 rgba(159, 204, 250, 0.7);
+  border-radius: 0px;
+  cursor: pointer;
+  -webkit-animation: pulse 1.0s 1 cubic-bezier(0.66, 0, 0, 1);
+  -moz-animation: pulse 1.0s 1 cubic-bezier(0.66, 0, 0, 1);
+  -ms-animation: pulse 1.0s 1 cubic-bezier(0.66, 0, 0, 1);
+  animation: pulse 1.0s 1 cubic-bezier(0.66, 0, 0, 1);
+}
+
+.pulse-button
+{
+  -webkit-animation: none;-moz-animation: none;-ms-animation: none;animation: none;
+}
+
+@-webkit-keyframes pulse {to {box-shadow: 0 0 0 15px rgba(159, 204, 250, 0);}}
+@-moz-keyframes pulse {to {box-shadow: 0 0 0 15px rgba(159, 204, 250, 0);}}
+@-ms-keyframes pulse {to {box-shadow: 0 0 0 15px rgba(159, 204, 250, 0);}}
+@keyframes pulse {to {box-shadow: 0 0 0 15px rgba(159, 204, 250, 0);}}
+
+.stripped{
+	margin: 0px 0px 0px 0px;
+	padding: 0px 0px 0px 0px;
+	display: inline-block;
+}
+	
+	</style>
+	
+	
+		<p>Live update as you type Form Element</p>
+		<form name='myForm'>
+		<div id="form-placeholder"></div>
+		Name: <input type='text' class="pulse-button" onChange="InputFormAjx('live-output', 'ajax_server_test.php','form-placeholder');" name='username' /> <br />
+		Time: <input type='text' name='time' id="live-output" />
+		</form>
+		<hr size="1"/>
+		<p>Link element</p>
+		<a href="#" id="output-link" onclick ="ajax_link('output','ajax_server_test.php');">Click here to test</a>
+		<div id="output">updated text should appear here</div>
+		<hr size="1"/>
+		<div id="placeholder">
+			<div id="placeholder-status" class="placeholder-status"></div>
+			<div id="placeholder-waiting" class="placeholder-waiting"></div>
+			<div id="placeholder-contents">
+				<a href="#" onclick ="placeholder_update('placeholder','text','../../../system/widgets/browse_tree.widget.php?place=text');">Click here to test</a>
+				<div id="text">
+					On loose focus BOX update server; On Input single only update server
+				</div>
+				<p id="text1"></p>
+			</div>
+		</div>
+		<hr size="1"/>
+		<p>On Loose focus (a status img should appear)</p>
+		<div class="stripped">Name: <input type='text' id="name" class="pulse-button" onblur="AjxInput('name', 'ajax_server_test.php');" name='username' /><div class="stripped" id="name-wait"></div></div> <br />
+
+		<hr size="1"/>
+		<p>Run OnDemand script Code</p>
+		<a href="#" onclick ="ajax_link('output','ajax_server_test.php');">Click here to test</a>
+		<div id="output">A window alert should open</div>
+	</body>
+</html>

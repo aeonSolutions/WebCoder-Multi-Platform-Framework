@@ -1,0 +1,26 @@
+<?php
+// fucntions
+$functions['name'][]='';
+$functions['file'][]='';
+$functions['line'][]='';
+$functions['platform'][]='Local';
+
+// objects such as classes 
+$objects['name'][]='';
+$objects['file'][]='';
+$objects['line'][]='';
+$objects['platform'][]='Local';
+
+// html ID
+$htmlIDs['name'][]='';
+$htmlIDs['file'][]='';
+$htmlIDs['line'][]='';
+$htmlIDs['type'][]='';
+$htmlIDs['platform'][]='Local';
+
+// css classes & IDs
+$CssClasses['name'][]='';
+$CssClasses['file'][]='';
+$CssClasses['line'][]='';
+$CssClasses['platform'][]='Local';
+?>

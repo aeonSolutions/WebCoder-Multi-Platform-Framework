@@ -1,0 +1,19 @@
+<?php
+// File contents array
+
+//local section
+$section['local']['directory']= 'name str(30)';
+
+//web section
+$section['web']['directory']= 'name str(30)';
+
+//shared section
+$section['shared']['directory']= 'name str(30)';
+
+//shared section
+$section['mobile']['directory']= 'name str(30)';
+
+//shared section
+$section['tablet']['directory']= 'name str(30)';
+
+?>

@@ -1,0 +1,51 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Test file</title>
+	<link href="ajax_fx.css" rel="stylesheet" type="text/css" />
+   	<link href="../../../system/GUI/styles/font-awesome.min.css" rel="stylesheet">
+	<link rel="StyleSheet" href="../../../system/GUI/styles/dtree.css" type="text/css" />
+
+</head>
+<body>
+	<script type="text/javascript">
+	function toggleAlert() {
+	toggleDisabled(document.getElementById("content"));
+	}
+	function toggleDisabled(el) {
+	try {
+	el.disabled = el.disabled ? false : true;
+	}
+	catch(E){
+	}
+	if (el.childNodes && el.childNodes.length > 0) {
+	for (var x = 0; x < el.childNodes.length; x++) {
+	toggleDisabled(el.childNodes[x]);
+	}
+	}
+	}
+	
+		
+	</script>
+
+	<div id="content">
+	<table>
+	<tr>
+	<td><input type="text" name="foo" /></td>
+	</tr>
+	<tr>
+	<td>
+	<select name="bar">
+	<option>a</option>
+	<option>b</option>
+	<option>c</option>
+	</select>
+	</td>
+	</tr>
+	</table>
+	</div>
+	<input type="checkbox" value="toggleAlert()"  onclick="toggleAlert()" />
+
+</body>
+</html>

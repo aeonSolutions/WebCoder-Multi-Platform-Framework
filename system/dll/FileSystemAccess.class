@@ -1,0 +1,61 @@
+<?php
+
+
+ class FileSystemAccess {
+
+      private static $FileAddr;
+
+	function __construct() {
+		self::$FileAddr = substr(__FILE__,0,strpos(__FILE__,"system")); // level 0 file address location (root)
+		
+	}
+      
+
+	public static function WritePrermissions($folder) {
+		
+		$writable= array("0777", "0774");
+		
+		$dir_writable = substr(sprintf('%o', fileperms($folder)), -4);
+		if (in_array($dir_writable, $writable):
+			return true;
+		else:
+			return false;
+		endif;
+		
+	}
+
+
+	public static function WriteFile($filename, $file_content) {
+	
+		include(self::$FileAddr.'system/dll/live_debug.class');
+	
+		$Debug = new live_debug;
+		$Debug->file_line_debug=true;
+		$Debug->headers_reload_debug=true;
+		$Debug->code=rand(100, 500);
+		$Debug->file=__FILE__;
+		$Debug->display=false;
+		$Debug->store_bugs=true;
+		
+		$Debug->start_file_debug(__LINE__);
+
+		if (file_exists($filename)):
+			$Debug->err_code='DF';
+			$Debug->no_error=true;
+			$Debug->no_error=unlink($filename);
+			$Debug->breakpoint(__LINE__);
+		endif;
+		
+		$handle = fopen($filename, 'a');		
+		if(fwrite($handle, $file_content)==false)://unable to write file
+			$Debug->err_code='WF';
+			$Debug->no_error=false;
+			$Debug->breakpoint(__LINE__);
+		endif;
+		fclose($handle);
+		$Debug->end_file_debug(__LINE__);
+	}//EOF write file
+
+};
+
+?>

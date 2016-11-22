@@ -1,0 +1,38 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Test file</title>
+	<link href="ajax_fx.css" rel="stylesheet" type="text/css" />
+   	<link href="../../../system/GUI/styles/font-awesome.min.css" rel="stylesheet">
+	<link rel="StyleSheet" href="../../../system/GUI/styles/dtree.css" type="text/css" />
+
+</head>
+<body>
+<script type="text/javascript" src="../../../system/BrowserDom/TreeList.lib.js"></script>
+
+<p>Test of tree</p>
+<script type="text/javascript">
+	h = new dTree('h');
+	
+	h.add(0,-1,'AeonLabs');
+	h.add(1,0,'Development','link.html');
+	h.add(2,0,'Bundle','link.html');
+	
+	document.write(h);
+</script>
+
+	<script type="text/javascript">
+
+		g = new dTree('g');
+
+		g.add(0,-1,'AeonLabs');
+		g.add(1,0,'Development','example01.html');
+		g.add(2,0,'Bundle','example01.html');
+
+		document.write(g);
+
+	</script>
+
+</body>
+</html>

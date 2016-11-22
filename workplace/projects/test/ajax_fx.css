@@ -1,0 +1,22 @@
+#placeholder { position: relative; width: 300px; height: 300px; z-index: 2; opacity: 1; background-color: lightblue; -webkit-transition: all 4s ease-out 0s; -moz-transition: all 4s ease-out 0s; -ms-transition: all 4s ease-out 0s; -o-transition: all 4s ease-out 0s; transition: all 4s ease-out 0s; -webkit-opacity: 1; -moz-opacity: 1; opacity: 1; }
+
+.placeholder-status { width: 20px; height: 20px; position: relative; top: 0px; left: 0px; float: right; padding: 2px 2px 2px 2px; background-color: none; text-align: center; z-index: 4; }
+
+.placeholder-waiting { width: 60px; height: 60px; position: absolute; top: 40%; left: 40%; float: center; z-index: 4; background-image: url("system/GUI/graphics/icons/waiting.gif"); background-size: 60px; visibility: hidden; -webkit-transition: all 4s ease-out 0s; -moz-transition: all 4s ease-out 0s; -ms-transition: all 4s ease-out 0s; -o-transition: all 4s ease-out 0s; transition: all 4s ease-out 0s; -webkit-opacity: 1; -moz-opacity: 1; opacity: 1; }
+
+.status-check { color: #99FF99; }
+
+.status-error { color: #FFBF00; }
+
+.link-wait { height: 20px; }
+
+.link-disabled { text-decoration: none; color: gray; }
+
+.fade-in { opacity: 1; -webkit-animation: fadeIn ease-in 0; -moz-animation: fadeIn ease-in 0; -o-animation: fadeIn ease-in 0; animation: fadeIn ease-in 0; -webkit-animation-fill-mode: forwards; -moz-animation-fill-mode: forwards; -o-animation-fill-mode: forwards; animation-fill-mode: forwards; -webkit-animation-duration: 5s; -moz-animation-duration: 5s; -o-animation-duration: 5s; animation-duration: 5s; -webkit-animation-delay: 10s; -moz-animation-delay: 10s; -o-animation-delay: 10s; animation-delay: 10s; }
+
+@-webkit-keyframes fadeIn { from { opacity:1; } to { opacity:0; } };
+@-moz-keyframes fadeIn { from { opacity:1; } to { opacity:0; } };
+@-o-keyframes fadeIn { from { opacity:1; } to { opacity:0; } };
+@keyframes fadeIn { from { opacity:1; } to { opacity:0; } };
+
+/*# sourceMappingURL=ajax_fx.css.map */

@@ -1,0 +1,26 @@
+<?php
+function copyr($srcdir){
+
+if (!is_dir($srcdir)):
+	return false;
+else:
+
+    if($curdir = opendir($srcdir)):
+        while($file = readdir($curdir)):
+            if($file != '.' && $file != '..'):
+                $srcfile = $srcdir . '/' . $file;  
+                $dstfile = $dstdir . '/' . $file;  
+                
+                if(is_file($srcfile)):
+
+                elseif(is_dir($srcfile)):
+
+                endif;
+            endif;
+        endwhile;
+        closedir($curdir);
+	endif;
+
+endif;
+}
+?>

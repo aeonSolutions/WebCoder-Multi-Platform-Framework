@@ -1,0 +1,289 @@
+<?php
+/* File revision date: 17-abr-2016 */
+class configuration_files_builder{
+
+	var $filename; 
+	var $cfg_directory='system/config/';
+	var $file_line_debug;
+	var $stop_at_bug= false;
+	var $rootPath;
+	
+	function __construct() {
+		$this->rootPath = substr(__FILE__,0,strpos(__FILE__,"system")); // file system path
+		
+	}
+
+	function write_file($file_content) {
+	
+		$debug_cfg_class = new live_debug;
+		$debug_cfg_class->file_line_debug=true;
+		$debug_cfg_class->headers_reload_debug=true;
+		$debug_cfg_class->code=rand(100, 500);
+		$debug_cfg_class->file=__FILE__;
+		$debug_cfg_class->display=false;
+		$debug_cfg_class->store_bugs=true;
+		
+		$debug_cfg_class->start_file_debug(__LINE__);
+			
+		$filename=$this->rootPath.$this->cfg_directory.$this->filename;
+		if (file_exists($filename)):
+			$debug_cfg_class->err_code='DF';
+			$debug_cfg_class->no_error=true;
+			$debug_cfg_class->no_error=unlink($filename);
+			$debug_cfg_class->breakpoint(__LINE__);
+		endif;
+		$handle = fopen($filename, 'a');		
+		if(fwrite($handle, $file_content)==false)://unable to write file
+			if(!isset($_GET['SID'])):
+				$debug_cfg_class->err_code='WF';
+				$debug_cfg_class->no_error=false;
+				$debug_cfg_class->breakpoint(__LINE__);
+				exit;		
+			else:
+				$globvars['error']['message']='Unable to write file:'.$filename;
+				// missing error handling here
+				exit;
+			endif;
+		endif;
+		fclose($handle);
+		$debug_cfg_class->end_file_debug(__LINE__);
+	}//EOF write file
+
+
+	function loaded_cfg($loaded){
+		$file_content="<?php".chr(13);
+		
+		if (isset($loaded[0])):
+			for ($i = 0; $i < count($loaded); $i++):
+				$file_content .="$"."loaded[".$i."]='".$loaded[$i]."';".chr(13);
+			endfor;
+		endif;
+		
+		$file_content.="?>";
+		
+		$this->filename='loaded.live';
+		$this->write_file($file_content);
+	}
+
+	function status_cfg(){
+		$file_content="<?php
+// New status file
+		"."$"."workvars['entrytime']='".date('d;m;Y;H;i;s')."';
+		"."$"."workvars['hd_location']='".$this->project['directory']['path']."';
+		"."$"."workvars['project']['directory']='".$this->project['directory']['name']."';
+		?>";
+		$this->filename='status.cfg';
+		$this->write_file($file_content);
+	} // EOF status content
+
+
+
+	function project_properties($properties) {
+		if(!isset($properties['identity']['identifier']) or !isset($properties['server']['database']['mobile']['addr']) ):
+			include($this->rootPath.'system/templates/default.proj');
+			//missing setup main folders
+		endif;
+	
+		$file_content="<?php
+//last update to project settings
+		"."$"."properties['entrytime']='".@date('d;m;Y;H;i;s')."';
+	
+// main folders
+		"."$"."properties['directory']['name']='".(isset($properties['directory']['name']) ? $properties['directory']['name'] : '')."'; //Name of install folder 
+		"."$"."properties['directory']['path']='".(isset($properties['directory']['path']) ? $properties['directory']['path'] : '')."'; //install address location 
+		"."$"."properties['domain']['address']='".(isset($properties['domain']['address']) ? $properties['domain']['address'] : '')."'; //main web address
+		
+//identity
+		"."$"."properties['identity']['identifier']='".(isset($properties['identity']['identifier']) ? $properties['identity']['identifier'] : '')."'; //Project ID
+		"."$"."properties['identity']['version']='".(isset($properties['identity']['version']) ? $properties['identity']['version'] : '')."'; //Project version
+		"."$"."properties['identity']['build']='".(isset($properties['identity']['build']) ? $properties['identity']['build'] : '')."'; //Project build
+		
+//deployment
+		"."$"."properties['deployment']['Html']='".(isset($properties['deployment']['Html']) ? $properties['deployment']['Html'] : '')."'; //HTML version coded
+		"."$"."properties['deployment']['Css']='".(isset($properties['deployment']['Css']) ? $properties['deployment']['Css'] : '')."'; //Css version coded
+		"."$"."properties['deployment']['Java']='".(isset($properties['deployment']['Java']) ? $properties['deployment']['Java'] : '')."'; //Java version coded
+		"."$"."properties['deployment']['Interface']='".(isset($properties['deployment']['Interface']) ? $properties['deployment']['Interface'] : '')."'; //Main Interface type
+
+		"."$"."properties['deployment']['Orientation']['Portrait']='".(isset($properties['deployment']['Orientation']['Portrait']) ? $properties['deployment']['Orientation']['Portrait'] : '')."'; // 
+		"."$"."properties['deployment']['Orientation']['UpSideDown']='".(isset($properties['deployment']['Orientation']['UpSideDown']) ? $properties['deployment']['Orientation']['UpSideDown'] : '')."'; // 
+		"."$"."properties['deployment']['Orientation']['LandScapeLeft']='".(isset($properties['deployment']['Orientation']['LandScapeLeft']) ? $properties['deployment']['Orientation']['LandScapeLeft'] : '')."'; // 
+		"."$"."properties['deployment']['Orientation']['LandScapeRight']='".(isset($properties['deployment']['Orientation']['LandScapeRight']) ? $properties['deployment']['Orientation']['LandScapeRight'] : '')."'; // 
+
+		"."$"."properties['deployment']['StatusBar']='".(isset($properties['deployment']['StatusBar']) ? $properties['deployment']['StatusBar'] : '')."'; // Status bar
+		"."$"."properties['deployment']['FullScreen']='".(isset($properties['deployment']['FullScreen']) ? $properties['deployment']['FullScreen'] : '')."'; //  FullScreen
+
+		"."$"."properties['deployment']['Platform']['Local']='".(isset($properties['deployment']['Platform']['Local']) ? $properties['deployment']['Platform']['Local'] : '')."'; // 
+		"."$"."properties['deployment']['Platform']['Web']='".(isset($properties['deployment']['Platform']['Web']) ? $properties['deployment']['Platform']['Web'] : '')."'; // 
+		"."$"."properties['deployment']['Platform']['Smartphone']='".(isset($properties['deployment']['Platform']['Smartphone']) ? $properties['deployment']['Platform']['Smartphone'] : '')."'; // 
+		"."$"."properties['deployment']['Platform']['Tablet']='".(isset($properties['deployment']['Platform']['Tablet']) ? $properties['deployment']['Platform']['Tablet'] : '')."'; // 
+		
+		"."$"."properties['deployment']['Backup']['Enabled']='".(isset($properties['deployment']['Backup']['Enabled']) ? $properties['deployment']['Backup']['Enabled'] : '')."'; // 
+		"."$"."properties['deployment']['Backup']['Interval']='".(isset($properties['deployment']['Backup']['Interval']) ? $properties['deployment']['Backup']['Interval'] : '')."'; // 
+
+		
+//resources
+		// WebApp Icons and Images external folders".chr(13);
+		if (isset($properties['resources']['IcoImg'][0])):
+			for ($i = 0; $i < count($properties['resources']['IcoImg']); $i++):
+				$file_content .="$"."properties['resources']['IcoImg'][".$i."]='".$properties['resources']['IcoImg'][$i]."';".chr(13);
+			endfor;
+		endif;
+		
+		$file_content .='		// Embedded binaries'.chr(13);
+		if (isset($properties['resources']['EmbbededBin'][0])):
+			for ($i = 0; $i < count($properties['resources']['EmbbededBin']); $i++):
+				$file_content .="		$"."properties['resources']['EmbbededBin'][".$i."]='".$properties['resources']['EmbbededBin'][$i]."';".chr(13);
+			endfor;
+		endif;
+		
+		$file_content .='		// linked libraries'.chr(13);
+		if (isset($properties['resources']['library'][0])):
+			for ($i = 0; $i < count($properties['resources']['library']); $i++):
+				$file_content .="		$"."properties['resources']['library'][".$i."]='".$properties['resources']['library'][$i]."';".chr(13);
+			endfor;
+		endif;
+
+		$file_content .='		// linked frameworks'.chr(13);
+		if (isset($properties['resources']['framework'][0])):
+			for ($i = 0; $i < count($properties['resources']['framework']); $i++):
+				$file_content .="		$"."properties['resources']['framework'][".$i."]='".$properties['resources']['framework'][$i]."';".chr(13);
+			endfor;
+		endif;
+
+		$file_content .='		// linked widgets'.chr(13);
+		if (isset($properties['resources']['widget'][0])):
+			for ($i = 0; $i < count($properties['resources']['widget']); $i++):
+				$file_content .="		$"."properties['resources']['widget'][".$i."]='".$properties['resources']['widget'][$i]."';".chr(13);
+			endfor;
+		endif;
+	
+		$file_content .='		// linked web applications'.chr(13);
+		if (isset($properties['resources']['webApp'][0])):
+			for ($i = 0; $i < count($properties['resources']['webApp']); $i++):
+				$file_content .="		$"."properties['resources']['webApp'][".$i."]='".$properties['resources']['webApp'][$i]."';".chr(13);
+			endfor;
+		endif;
+		
+		$file_content .="// Capabilities
+		"."$"."properties['capabilities']['OSCN']='".(isset($properties['capabilities']['OSCN']) ? $properties['capabilities']['OSCN'] : '')."'; //open source cloud network
+		"."$"."properties['capabilities']['PushNotifications']='".(isset($properties['capabilities']['PushNotifications']) ? $properties['capabilities']['PushNotifications'] : '')."'; //push notifications
+		"."$"."properties['capabilities']['Wallet']='".(isset($properties['capabilities']['Wallet']) ? $properties['capabilities']['Wallet'] : '')."'; //Digital wallet
+		"."$"."properties['capabilities']['Shopping']='".(isset($properties['capabilities']['Shopping']) ? $properties['capabilities']['Shopping'] : '')."'; //shopping store
+		"."$"."properties['capabilities']['FamilyHome']='".(isset($properties['capabilities']['FamilyHome']) ? $properties['capabilities']['FamilyHome'] : '')."'; //Family and home
+		"."$"."properties['capabilities']['Health']='".(isset($properties['capabilities']['Health']) ? $properties['capabilities']['Health'] : '')."'; //health
+		"."$"."properties['capabilities']['DataProtection']='".(isset($properties['capabilities']['DataProtection']) ? $properties['capabilities']['DataProtection'] : '')."'; //Data Protection
+		"."$"."properties['capabilities']['StaySafe']='".(isset($properties['capabilities']['StaySafe']) ? $properties['capabilities']['StaySafe'] : '')."'; //Stay safe police enforcement
+		"."$"."properties['capabilities']['DNSHuman']='".(isset($properties['capabilities']['DNSHuman']) ? $properties['capabilities']['DNSHuman'] : '')."'; //Domain names human verification 
+		"."$"."properties['capabilities']['Financial']='".(isset($properties['capabilities']['Financial']) ? $properties['capabilities']['Financial'] : '')."'; //Persnoal or business finalcial and money management
+		"."$"."properties['capabilities']['Games']='".(isset($properties['capabilities']['Games']) ? $properties['capabilities']['Games'] : '')."'; //Games center
+		"."$"."properties['capabilities']['search']='".(isset($properties['capabilities']['search']) ? $properties['capabilities']['search'] : '')."'; //searching framework
+
+// safety
+		"."$"."properties['safety']['AuthTypesAllowed']['web']='".(isset($properties['safety']['AuthTypesAllowed']['web']) ? $properties['safety']['AuthTypesAllowed']['web'] : '')."'; //common web username and password auth
+		"."$"."properties['safety']['AuthTypesAllowed']['sms']='".(isset($properties['safety']['AuthTypesAllowed']['sms']) ? $properties['safety']['AuthTypesAllowed']['sms'] : '')."'; //sent mobile sms code for auth
+		"."$"."properties['safety']['AuthTypesAllowed']['CodeGen']='".(isset($properties['safety']['AuthTypesAllowed']['CodeGen']) ? $properties['safety']['AuthTypesAllowed']['CodeGen'] : '')."'; //input code give by smartphone app code generator
+		"."$"."properties['safety']['AuthTypesAllowed']['LiveMD5']='".(isset($properties['safety']['AuthTypesAllowed']['LiveMD5']) ? $properties['safety']['AuthTypesAllowed']['LiveMD5'] : '')."'; //live MD5 code end2end comparison
+
+		"."$"."properties['safety']['Keys']['Internal']='".(isset($properties['safety']['Keys']['Internal']) ? $properties['safety']['Keys']['Internal'] : '')."'; //internal project PGP key
+		"."$"."properties['safety']['Keys']['Public']='".(isset($properties['safety']['Keys']['Public']) ? $properties['safety']['Keys']['Public'] : '')."'; //Public project PGP key
+		"."$"."properties['safety']['Sharing']['Enabled']='".(isset($properties['safety']['Sharing']['Enabled']) ? $properties['safety']['Sharing']['Enabled'] : '')."'; //enable or disable safety sharing
+
+		"."$"."properties['safety']['AssocDomains']='".(isset($properties['safety']['AssocDomains']) ? $properties['safety']['AssocDomains']: '')."'; //Trusted associated domain namessharing
+		".chr(13);
+		
+		
+		$file_content .="// Build rules
+		"."$"."properties['Compiler']['engine']='".$properties['Compiler']['engine']."'; //compiler engine
+
+		"."$"."properties['Compiler']['options']['sass']['compress']='".$properties['Compiler']['options']['sass']['compress']."'; //compiler options
+		"."$"."properties['Compiler']['options']['sass']['merge']='".$properties['Compiler']['options']['sass']['merge']."'; //compiler options
+		"."$"."properties['Compiler']['options']['css']['compress']='".$properties['Compiler']['options']['css']['compress']."'; //compiler options
+		"."$"."properties['Compiler']['options']['css']['merge']='".$properties['Compiler']['options']['css']['merge']."'; //compiler options
+		"."$"."properties['Compiler']['options']['javascript']['compress']='".$properties['Compiler']['options']['javascript']['compress']."'; //compiler options
+		"."$"."properties['Compiler']['options']['javascript']['merge']='".$properties['Compiler']['options']['javascript']['merge']."'; //compiler options
+
+		"."$"."properties['Compiler']['BuildPhases']['beta']='".$properties['Compiler']['BuildPhases']['beta']."'; //compiler build phases: 
+		"."$"."properties['Compiler']['BuildPhases']['alfa']='".$properties['Compiler']['BuildPhases']['alfa']."'; //compiler build phases: 
+		"."$"."properties['Compiler']['BuildPhases']['rc']='".$properties['Compiler']['BuildPhases']['rc']."'; //compiler build phases: 
+		"."$"."properties['Compiler']['BuildPhases']['final']='".$properties['Compiler']['BuildPhases']['final']."'; //compiler build phases: 
+		
+// Development settings
+		"."$"."properties['development']['folders']['local']='".$properties['development']['folders']['local']."'; //override default root folder for local
+		"."$"."properties['development']['folders']['web']='".$properties['development']['folders']['web']."'; //override default root folder for web
+		"."$"."properties['development']['folders']['mobile']='".$properties['development']['folders']['mobile']."'; //override default root folder for mobile
+		"."$"."properties['development']['folders']['tablet']='".$properties['development']['folders']['tablet']."'; //override default root folder for tablet
+		
+		"."$"."properties['development']['versioning']='".$properties['development']['versioning']."'; //enable or disable versioning
+		"."$"."properties['development']['Distribution']='".$properties['development']['Distribution']."'; //type of licence for distribution
+		"."$"."properties['development']['CustomText']='".$properties['development']['CustomText']."'; //custom text
+		
+		"."$"."properties['development']['repository']['Github']='".$properties['development']['repository']['Github']."'; // enable or disable Github
+		"."$"."properties['development']['repository']['SVN']='".$properties['development']['repository']['SVN']."'; //enable or disable SVN
+		
+// database server locations
+		"."$"."properties['server']['database']['local']['addr']='".$properties['server']['database']['local']['addr']."'; // database server
+		"."$"."properties['server']['database']['local']['user']='".$properties['server']['database']['local']['user']."'; // database server
+		"."$"."properties['server']['database']['local']['pwd']='".$properties['server']['database']['local']['pwd']."'; // database server
+
+		"."$"."properties['server']['database']['web']['addr']='".$properties['server']['database']['web']['addr']."'; // database server
+		"."$"."properties['server']['database']['web']['user']='".$properties['server']['database']['web']['user']."'; // database server
+		"."$"."properties['server']['database']['web']['pwd']='".$properties['server']['database']['web']['pwd']."'; // database server
+
+		"."$"."properties['server']['database']['mobile']['addr']='".$properties['server']['database']['mobile']['addr']."'; // database server
+		"."$"."properties['server']['database']['mobile']['user']='".$properties['server']['database']['mobile']['user']."'; // database server
+		"."$"."properties['server']['database']['mobile']['pwd']='".$properties['server']['database']['mobile']['pwd']."'; // database server
+
+		"."$"."properties['server']['database']['tablet']['addr']='".$properties['server']['database']['tablet']['addr']."'; // database server
+		"."$"."properties['server']['database']['tablet']['user']='".$properties['server']['database']['tablet']['user']."'; // database server
+		"."$"."properties['server']['database']['tablet']['pwd']='".$properties['server']['database']['tablet']['pwd']."'; // database server
+		
+// hosting server locations
+		"."$"."properties['server']['hosting']['local']['addr']='".$properties['server']['hosting']['local']['addr']."'; // hosting server address
+		"."$"."properties['server']['hosting']['local']['ftp']='".$properties['server']['hosting']['local']['ftp']."'; // hosting server enable or disable ftp
+		"."$"."properties['server']['hosting']['local']['user']='".$properties['server']['hosting']['local']['user']."'; // ftp hosting server username
+		"."$"."properties['server']['hosting']['local']['pwd']='".$properties['server']['hosting']['local']['pwd']."'; // ftp hosting server password
+		"."$"."properties['server']['hosting']['local']['port']='".$properties['server']['hosting']['local']['port']."'; // ftp hosting server port
+		"."$"."properties['server']['hosting']['local']['remotePath']='".$properties['server']['hosting']['local']['remotePath']."'; // ftp hosting server remote path
+		
+		"."$"."properties['server']['hosting']['web']['addr']='".$properties['server']['hosting']['web']['addr']."'; // hosting server address
+		"."$"."properties['server']['hosting']['web']['ftp']='".$properties['server']['hosting']['web']['ftp']."'; // hosting server enable or disable ftp
+		"."$"."properties['server']['hosting']['web']['user']='".$properties['server']['hosting']['web']['user']."'; // ftp hosting server username
+		"."$"."properties['server']['hosting']['web']['pwd']='".$properties['server']['hosting']['web']['pwd']."'; // ftp hosting server password
+		"."$"."properties['server']['hosting']['web']['port']='".$properties['server']['hosting']['web']['port']."'; // ftp hosting server port
+		"."$"."properties['server']['hosting']['web']['remotePath']='".$properties['server']['hosting']['web']['remotePath']."'; // ftp hosting server remote path
+
+		"."$"."properties['server']['hosting']['mobile']['addr']='".$properties['server']['hosting']['mobile']['addr']."'; // hosting server address
+		"."$"."properties['server']['hosting']['mobile']['ftp']='".$properties['server']['hosting']['mobile']['ftp']."'; // hosting server enable or disable ftp
+		"."$"."properties['server']['hosting']['mobile']['user']='".$properties['server']['hosting']['mobile']['user']."'; // ftp hosting server username
+		"."$"."properties['server']['hosting']['mobile']['pwd']='".$properties['server']['hosting']['mobile']['pwd']."'; // ftp hosting server password
+		"."$"."properties['server']['hosting']['mobile']['port']='".$properties['server']['hosting']['mobile']['port']."'; // ftp hosting server port
+		"."$"."properties['server']['hosting']['mobile']['remotePath']='".$properties['server']['hosting']['mobile']['remotePath']."'; // ftp hosting server remote path
+		
+		"."$"."properties['server']['hosting']['tablet']['addr']='".$properties['server']['hosting']['tablet']['addr']."'; // hosting server address
+		"."$"."properties['server']['hosting']['tablet']['ftp']='".$properties['server']['hosting']['tablet']['ftp']."'; // hosting server enable or disable ftp
+		"."$"."properties['server']['hosting']['tablet']['user']='".$properties['server']['hosting']['tablet']['user']."'; // ftp hosting server username
+		"."$"."properties['server']['hosting']['tablet']['pwd']='".$properties['server']['hosting']['tablet']['pwd']."'; // ftp hosting server password
+		"."$"."properties['server']['hosting']['tablet']['port']='".$properties['server']['hosting']['tablet']['port']."'; // ftp hosting server port
+		"."$"."properties['server']['hosting']['tablet']['remotePath']='".$properties['server']['hosting']['tablet']['remotePath']."'; // ftp hosting server remote path
+		 ";
+		
+		$file_content .='		// hosting database types'.chr(13);
+
+		$where=array('local','web','mobile','tablet');
+		for ($j = 0; $j < count($where); $j++):	
+			if (isset($properties['server']['database'][$where[$j]]['type'][0])):
+				for ($i = 0; $i < count($properties['server']['database'][$where[$j]]['type']); $i++):
+					$file_content .="		$"."properties['server']['database']['".$where[$j]."']['type'][".$i."]='".$properties['server']['database'][$where[$j]]['type'][$i]."';".chr(13);
+					$file_content .="		$"."properties['server']['database']['".$where[$j]."']['version'][".$i."]='".$properties['server']['database'][$where[$j]]['version'][$i]."';".chr(13);
+				endfor;		
+			endif;
+		endfor;
+		
+		$file_content.="?>";
+				
+		$this->write_file($file_content);
+		
+	} // EOF propreties content
+
+};// EOF Class
+?>

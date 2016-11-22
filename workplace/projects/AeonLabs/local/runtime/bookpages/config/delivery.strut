@@ -1,0 +1,9 @@
+<?php
+/* File delivery array
+ avail options:
+	LOCAL_ONLY
+	WEB
+	LOCAL_ONLINE
+*/
+$delivery['filename']= '';
+?>

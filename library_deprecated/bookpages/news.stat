@@ -1,0 +1,18 @@
+<?php
+// File contents array
+
+//ratings
+$rating['local']['filename'][]= add_rating;
+$rating['web']['filename'][]= add_rating;
+$rating['shared']['filename'][]= add_rating;
+$rating['mobile']['filename'][]= add_rating;
+$rating['tablet']['filename'][]= add_rating;
+
+//views
+$views['local']['filename'][]= +1;
+$views['web']['filename'][]= +1;
+$views['shared']['filename'][]= +1;
+$views['mobile']['filename'][]= +1;
+$views['tablet']['filename'][]= +1;
+
+?>

@@ -1,0 +1,16 @@
+<?php
+// get_class_vars ( string $class_name )
+
+class ProjectFiles {
+	var $identity_bundle_identifier;
+	
+	$directory_name;
+	$directory_path;
+	
+	$project['domain']['address']='localhost/webcoder/workplace/projects/AeonLabs/';
+	
+	// flags for currect builds of each library - to define typical flags and common errors of each phase
+	//Build 
+	$project['build']['current']='Development'; //accepts values of Development, Alpha, Beta, ReleaseCandidate, Ready
+}
+?>

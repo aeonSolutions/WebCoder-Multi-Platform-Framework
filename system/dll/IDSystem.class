@@ -1,0 +1,67 @@
+<?php
+ class IDSystem {
+      private static $characters = 'abcdefghijklmnopqrstuvwxyz0123456789';
+      private static $string;
+      private static $length = 8; //default random string length
+      private static $UID = array('');
+      private static $FileAddr;
+
+	function __construct() {
+		self::$FileAddr = substr(__FILE__,0,strpos(__FILE__,"system")); // level 0 file address location (root)
+		
+	}
+	
+	  // generate a random alpha numeric string with size of length
+	public static function generate($length = null){
+
+        if($length):
+          self::$length = $length;
+        endif;
+
+        $characters_length = strlen(self::$characters) - 1;
+
+        for ($i = 0; $i < self::$length; $i++):
+          self::$string .= self::$characters[mt_rand(0, $characters_length)];
+        endfor;
+
+        return self::$string;
+	}
+      
+      // returns a unique ID of size given on length
+	public static function NewUID($length = null){
+      	$Spaceless='';
+	    while (in_array($Spaceless, self::$UID)):	
+	    	$Spaceless=self::generate($length);
+	    endwhile;
+      	self::$UID[]=$Spaceless;
+
+      	return self::$UID[count(self::$UID)-1];
+	}
+     
+	//stores ID array in a local hard drive file
+	public static function StoreUIDList($filename = null){
+		
+		if (!isset(self::$UID[0])):
+			return false;
+		endif;
+		
+		include(self::$FileAddr.'system/dll/FileSystemAccess.class');
+		$FSA = new FileSystemAccess;
+
+		if($filename== null):
+		  $filename = self::$FileAddr.'system/config/UIDList.DB.tmp';
+		endif;
+		
+		$file_content='<?php'.chr(13);
+		for ($i = 0; $i < count(self::$UID); $i++):
+			$file_content.='$UIDDB['.$i.']='.self::$UID[$i].chr(13);		
+		endfor;
+		$file_content.='?>';
+		
+		$FSA::WriteFile($filename, $file_content);
+		return true;
+	}
+
+};
+    
+?>

@@ -1,0 +1,21 @@
+<?php
+// File contents array
+
+//local section
+$section['local']['directory']= 'name str(30)';
+
+//web section
+$section['web']['name']['format']= 'string';
+
+// initial and end pages for section
+$section['web']['name']['page']['ini']= '';
+$section['web']['name']['page']['end']= '';
+// news contents
+$section['web']['name']['page'][]= 'filename.html';
+$section['web']['name']['page'][]= 'filename.html';
+$section['web']['name']['page'][]= 'filename.html';
+$section['web']['name']['page'][]= 'filename.html';
+$section['web']['name']['page'][]= 'filename.html';
+$section['web']['name']['page'][]= 'filename.html';
+
+?>

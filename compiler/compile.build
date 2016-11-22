@@ -1,0 +1,31 @@
+<?php
+get project name 
+set destination format: .local .web .mobile .shared
+make compile on bundle folder
+
+//create directories
+mkdir('contents');
+mkdir('contents/images');
+mkdir('contents/photos');
+mkdir('contents/graphics');
+mkdir('runtitme');
+mkdir('runtime/fonts');
+mkdir('runtime/styles');
+mkdir('runtime/browserdom');
+
+//copy files
+copy('libraries');
+if (is_file('lib_name.compile')):
+ //load lib_name.compile
+endif;
+
+// ++ join .css && .js files and compress
+copy('');
+
+//build files and compile 
+file_get_contents($filename[, $flags=0[, $context[, $offset=-1[, $maxlen=-1]]]])
+
+// join files
+
+// make compressed .sugar file bundles
+?>

@@ -1,0 +1,38 @@
+<link href="system/GUI/frontend/search/searchStyle.css" rel="stylesheet" type="text/css" />
+
+<div class="SanFrancisco TextS1" id="SearchFiltersContainer">{search_on_what}</div>
+<div class="stripped" style="padding-left: 5px;" id="searchBoxContainer">
+	<div id="multiLineContainer">
+	
+	</div>
+	<div class="stripped-left searchSpace" id=""><i class="fa fa-search" aria-hidden="true"></i></div>
+	<div class="stripped-left" id="inlineContainer">
+		<input class="searchBox searchbox-inline SanFrancisco" type="text" id="SearchQuery" onclick="javascript: SearchQuery('start');" onblur="javascript: SearchQuery('reset');" value="Text" />
+	</div>
+	<div id="SwitchOpt" class="stripped-right searchSpace SanFrancisco TextS1" onclick="javascript: switchInput();"><i class="fa fa-list fa-fw" aria-hidden="true"></i></div>
+	<div class="stripped-right searchSpace" id=""><i class="fa fa-minus-square-o fa-fw" aria-hidden="true" onclick="javascript: SearchQuery('reset');"></i></div>
+</div>
+
+<div class="stripped" id="SearchWhereContainer">
+	<div class="stripped-left SanFrancisco TextS1" id="SearchScope"><i class="fa fa-tasks" aria-hidden="true"></i>&nbsp;Where...</div>
+	<div class="stripped-right SanFrancisco TextS1" id="">
+		<select class="SanFrancisco TextS2 clearbox">
+			<option>Ignoring Case</option>
+			<option>Matching Case</option>
+		</select>
+	</div>
+</div>
+
+<div id="SearchListContainer">	
+	<div id="SearchScopesList">
+		{search_scopes}
+	</div>
+	<div id="SearchScopesList">	
+		<h1 class="ArialBlack TextS0"  style="color: #728293; text-shadow: none; ">PROJECT</h1>
+		<h2>
+			<img src="system/GUI/Graphics/icons/newproject.png" height="14px" alt="" />
+			&nbsp;<a id="projScopeAll" onclick="javascript: PreSelectScope('projScopeAll','Aeonlabs');" ondblclick="" href="#">AeonLabs</a>
+		</h2>
+		{search_project}
+	</div>	
+</div>

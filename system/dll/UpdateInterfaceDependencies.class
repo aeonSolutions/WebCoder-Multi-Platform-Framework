@@ -1,0 +1,176 @@
+<?php
+/* File revision date: 05-Jan-2016 */
+
+/*
+Class Dependencies
+Interface Dependencies
+Method / Field Dependencies
+*/
+
+class liveUpdateOfInterfaceDependencies{
+
+	var $localPath;
+	var $projSettings;
+	var $workvars;
+	var $server;
+	var $request;
+	var $loaded;
+
+	function __construct() {
+		$this->localPath=substr(__FILE__,0,strpos(__FILE__,"system")); // file system path;
+		include($this->localPath.'system/config/status.cfg');
+		$this->workvars=$workvars;
+		include($this->localPath.'system/config/paths.cfg');
+		$this->server=$server;
+		$this->request=$request;
+		include($this->localPath.'workplace/projects/'.$this->workvars['project']['directory'].'/'.$workvars['project']['directory'].'.proj');
+		$this->projSettings=$properties;
+
+		//ToDo: build a map of what Ids are loaded into the client 		
+		include($this->localPath.'system/config/loaded.live');
+		$this->loaded=$loaded;
+		
+		//ToDo: build a HTML id map and what server file loads contents into that id
+		include($this->localPath.'system/config/IdMap.cfg');
+
+	}
+	
+	function project() { // project cfg files ToDo: split into each dependency
+	
+	}
+
+	function gui(){ //graphical user interface
+		/*
+		what needs to be refreshed if is currently loaded
+		- resources on settings
+		- capabilities on settings
+		- right side pane 
+		*/
+	
+	
+	}
+	
+	function webApplications(){
+		/*
+		what needs to be refreshed if is currently loaded
+		- resources on settings
+		- capabilities on settings
+		- right side pane 
+		*/
+	
+	
+	}
+		
+	function widgets(){
+		/*
+		what needs to be refreshed if is currently loaded
+		- resources on settings
+		- capabilities on settings
+		- right side pane 
+		*/
+	
+	
+	}
+
+	function frameworks(){
+		/*
+		what needs to be refreshed if is currently loaded
+		- resources on settings
+		- capabilities on settings
+		- right side pane 
+		*/
+
+		
+		$InputIds['name'][0]='LinkframewListCfg';// settings: resources
+		$InputIds['name'][1]='click-cloud';// settings: capabilities
+		$InputIds['name'][2]='click-push';// settings: capabilities
+		$InputIds['name'][3]='click-wallet';// settings: capabilities
+		$InputIds['name'][4]='click-games';// settings: capabilities
+		$InputIds['name'][5]='click-store';// settings: capabilities
+		$InputIds['name'][6]='click-fhome';// settings: capabilities
+		$InputIds['name'][7]='click-health';// settings: capabilities
+		$InputIds['name'][8]='click-DataP';// settings: capabilities
+		$InputIds['name'][9]='click-StaySafe';// settings: capabilities
+		$InputIds['name'][10]='click-DNS';// settings: capabilities
+		$InputIds['name'][11]='click-money';// settings: capabilities
+		$InputIds['name'][12]='click-search';// settings: capabilities
+		
+		
+		
+		$content. = '<destination>'.$InputIds[0].'</destination>';
+		$content.='<select id ="'.$cfg.'" name="'.$cfg.'" size="7" class="ms-files" >';
+		
+		$empty=true;
+		if (isset($properties['resources']['framework'][0])):
+			$properties['resources']['framework']=array_unique($properties['resources']['framework']);
+			$properties['resources']['framework']=array_values($properties['resources']['framework']);
+			for ($i = 0; $i < count($properties['resources']['framework']); $i++):
+			
+				$content.='<option>'.$properties['resources']['framework'][$i].'</option>';
+				$empty=false;
+			endfor;		
+		endif;
+		
+		if ($empty):
+			$content ='<p class="">Add Linked frameworks here</p>';
+		else:
+			$content.='</select>'.chr(13); // is a HTML5 forms list
+		endif;
+		
+		$values = array('','0','1');
+		if(in_array($values, $properties['capabilities']['OSCN']):
+			$content .= '<destination>'.$InputIds['name'][1].'</destination>';
+			$content .= "<script>document.getElementById('".$InputIds['name'][1]."').checked=".($properties['capabilities']['OSCN']=='1' ? '1' : '0').'</script>';			
+		elseif(in_array($values, $properties['capabilities']['PushNotifications']):
+			$content .= '<destination>'.$InputIds['name'][2].'</destination>';
+			$content .= "<script>document.getElementById('".$InputIds['name'][2]."').checked=".($properties['capabilities']['PushNotifications']=='1' ? '1' : '0').'</script>';	
+		elseif(in_array($values, $properties['capabilities']['Wallet']):
+			$content .= '<destination>'.$InputIds['name'][3].'</destination>';
+			$content .= "<script>document.getElementById('".$InputIds['name'][3]."').checked=".($properties['capabilities']['Wallet']=='1' ? '1' : '0').'</script>';	
+		elseif(in_array($values, $properties['capabilities']['Shopping']):
+			$content .= '<destination>'.$InputIds['name'][5].'</destination>';
+			$content .= "<script>document.getElementById('".$InputIds['name'][5]."').checked=".($properties['capabilities']['Shopping']=='1' ? '1' : '0').'</script>';	
+		elseif(in_array($values, $properties['capabilities']['FamilyHome']):
+			$content .= '<destination>'.$InputIds['name'][6].'</destination>';
+			$content .= "<script>document.getElementById('".$InputIds['name'][6]."').checked=".($properties['capabilities']['FamilyHome']=='1' ? '1' : '0').'</script>';	
+		elseif(in_array($values, $properties['capabilities']['Health']):
+			$content .= '<destination>'.$InputIds['name'][7].'</destination>';
+			$content .= "<script>document.getElementById('".$InputIds['name'][7]."').checked=".($properties['capabilities']['Health']=='1' ? '1' : '0').'</script>';	
+		elseif(in_array($values, $properties['capabilities']['DataProtection']):
+			$content .= '<destination>'.$InputIds['name'][8].'</destination>';
+			$content .= "<script>document.getElementById('".$InputIds['name'][8]."').checked=".($properties['capabilities']['DataProtection']=='1' ? '1' : '0').'</script>';	
+		elseif(in_array($values, $properties['capabilities']['StaySafe']):
+			$content .= '<destination>'.$InputIds['name'][9].'</destination>';
+			$content .= "<script>document.getElementById('".$InputIds['name'][9]."').checked=".($properties['capabilities']['StaySafe']=='1' ? '1' : '0').'</script>';	
+		elseif(in_array($values, $properties['capabilities']['DNSHuman']):
+			$content .= '<destination>'.$InputIds['name'][10].'</destination>';
+			$content .= "<script>document.getElementById('".$InputIds['name'][10]."').checked=".($properties['capabilities']['DNSHuman']=='1' ? '1' : '0').'</script>';	
+		elseif(in_array($values, $properties['capabilities']['Financial']):
+			$content .= '<destination>'.$InputIds['name'][11].'</destination>';
+			$content .= "<script>document.getElementById('".$InputIds['name'][11]."').checked=".($properties['capabilities']['Financial']=='1' ? '1' : '0').'</script>';	
+		elseif(in_array($values, $properties['capabilities']['Games']):
+			$content .= '<destination>'.$InputIds['name'][4].'</destination>';
+			$content .= "<script>document.getElementById('".$InputIds['name'][4]."').checked=".($properties['capabilities']['Games']=='1' ? '1' : '0').'</script>';	
+		elseif(in_array($values, $properties['capabilities']['search']):
+			$content .= '<destination>'.$InputIds['name'][12].'</destination>';
+			$content .= "<script>document.getElementById('".$InputIds['name'][12]."').checked=".($properties['capabilities']['search']=='1' ? '1' : '0').'</script>';	
+		endif;
+	
+	
+	return $content;
+	}
+
+	function libraries(){
+	/*
+	what needs to be refreshed if is currently loaded
+	- resources on settings
+	- capabilities on settings
+	- right side pane 
+	*/
+	
+	//update settings
+	
+	}
+
+};// EOF Class
+?>

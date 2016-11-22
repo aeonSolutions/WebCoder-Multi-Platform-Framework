@@ -1,0 +1,23 @@
+<?php
+/* File revision date: 05-Jan-2016 */
+
+/*
+Class Dependencies
+Interface Dependencies
+Method / Field Dependencies
+*/
+
+class liveUpdateOfDependencies{
+
+	var $localPath;
+
+	function __construct() {
+		$this->localPath=substr(__FILE__,0,strpos(__FILE__,"system")); // file system path; 
+	}
+	
+	function write_file($file_content) {
+	
+	}
+
+};// EOF Class
+?>

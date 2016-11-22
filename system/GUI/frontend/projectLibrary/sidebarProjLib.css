@@ -1,0 +1,28 @@
+#sblProjLib-warp { position: relative; width: 99%; height: 99%; overflow-y: scroll; }
+
+.sblProjLib-selection-wrapper { text-shadow: none; }
+
+.sblProjLib-SelectionBox { position: relative; width: 99.8%; padding: 0px 0px 0px 0px; border-bottom: 1px solid #cccccc; }
+
+.sblProjLib-SubSelectionBox { position: relative; width: 99.8%; padding: 0px 0px 0px 10px; }
+
+.sblProjLib-slider { position: relative; margin: 0 auto; display: block; width: 190px; overflow-y: hidden; max-height: 1500px; transition-property: all; transition-duration: 0.5s; transition-timing-function: cubic-bezier(0.42, 0, 1, 1); }
+
+.sblProjLib-slider.closed { max-height: 0; transition-property: all; transition-duration: 0.5s; transition-timing-function: cubic-bezier(0, 1, 0.5, 1); }
+
+.sblProjLib-selection-label { display: inline-block; width: 10px; height: 10px; cursor: pointer; background-image: url(../../graphics/icons/3angleRside.png); background-size: 10px 10px; margin-right: 0px; }
+
+.sblProjLib-selection-header-label { display: inline-block; padding: 6px 0 7px 10px; margin: 0 3px 0 0; color: #777; cursor: pointer; text-shadow: 1px 1px #fff; }
+.sblProjLib-selection-header-label:hover { color: #25357D; }
+
+#bottom-spacer { position: relative; display: block; width: 100%; height: 40px; }
+
+#click-Local, #click-Web, #click-Tablet, #click-Mobile { display: none; }
+
+#click-Local:checked + .sblProjLib-selection-label, #click-Web:checked + .sblProjLib-selection-label, #click-Mobile:checked + .sblProjLib-selection-label, #click-Tablet:checked + .sblProjLib-selection-label { background-image: url(../../graphics/icons/3angleDown.png); width: 10px; height: 10px; background-size: 10px 10px; }
+
+#click-LocalFunctions, #click-LocalObjects, #click-LocalHTML, #click-LocalCSS, #click-WebFunctions, #click-WebObjects, #click-WebHTML, #click-WebCSS, #click-MobileFunctions, #click-MobileObjects, #click-MobileHTML, #click-MobileCSS, #click-TabletFunctions, #click-TabletObjects, #click-TabletHTML, #click-TabletCSS { display: none; }
+
+#click-LocalFunctions:checked + .sblProjLib-selection-label, #click-LocalObjects:checked + .sblProjLib-selection-label, #click-LocalHTML:checked + .sblProjLib-selection-label, #click-LocalCSS:checked + .sblProjLib-selection-label, #click-WebFunctions:checked + .sblProjLib-selection-label, #click-WebObjects:checked + .sblProjLib-selection-label, #click-WebHTML:checked + .sblProjLib-selection-label, #click-WebCSS:checked + .sblProjLib-selection-label, #click-MobileFunctions:checked + .sblProjLib-selection-label, #click-MobileObjects:checked + .sblProjLib-selection-label, #click-MobileHTML:checked + .sblProjLib-selection-label, #click-mobileCSS:checked + .sblProjLib-selection-label, #click-TabletFunctions:checked + .sblProjLib-selection-label, #click-TabletObjects:checked + .sblProjLib-selection-label, #click-TabletHTML:checked + .sblProjLib-selection-label, #click-TabletCSS:checked + .sblProjLib-selection-label { background-image: url(../../graphics/icons/3angleDown.png); width: 10px; height: 10px; background-size: 10px 10px; }
+
+/*# sourceMappingURL=sidebarProjLib.css.map */

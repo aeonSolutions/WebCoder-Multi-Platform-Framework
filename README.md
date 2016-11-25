@@ -13,7 +13,10 @@ still on development stage
 
 ## ToDo packages
 - Settings panel incomplete
-- layout
+- layout incomplete
+- MVC integration
+- WYSIWYG text editor missing
+- ... alot to be done still!
 
 
 ##Security

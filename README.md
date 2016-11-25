@@ -1,5 +1,6 @@
 ## WebCoder Multi Platform FrameWork-Dev
-An experimental webpage integration platform with webserver capabilities and back office control panel for multi device access for webpage rendering
+An experimental webpage integration platform with webserver capabilities and back office control panel for multi device access on webpage access and rendering.
+Features latest technologies such as AJAX, SaSS, CSS3, HTML5
 
 ## Milestones
 - upgrade authentication package for password less auth
